@@ -1,21 +1,21 @@
 package com.example.clinic.config;
 
+import org.springdoc.core.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
+@EnableWebMvc
 public class SwaggerConfig {
 
     @Bean
-    public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.example.clinic.controller"))
-                .paths(PathSelectors.any())
+    public GroupedOpenApi customApi() {
+        GroupedOpenApi groupedOpenApi = GroupedOpenApi.builder()
+                .group("custom-api")
+                .packagesToScan("com.example.clinic.controller")
                 .build();
+        System.out.println("Swagger Configuration: " + groupedOpenApi);
+        return groupedOpenApi;
     }
 }
